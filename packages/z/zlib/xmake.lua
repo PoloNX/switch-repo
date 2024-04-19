@@ -1,4 +1,4 @@
-package("switch-zlib")
+package("zlib")
     set_base("switch-pkg")
     set_kind("library")
 

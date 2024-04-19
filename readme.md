@@ -1,0 +1,1 @@
+Xmake repo. Use [xmake-devkitpro](https://github.com/PoloNX/xmake-devkitpro) to build homebrew for Nintendo Switch.

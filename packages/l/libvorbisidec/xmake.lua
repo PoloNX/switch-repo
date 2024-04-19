@@ -4,7 +4,7 @@ package("libvorbisidec")
 
     on_load(function(package)
         package:add("deps", "libogg")
-        package:data_set("pkgname", "switch-libvorbisidecr")
+        package:data_set("pkgname", "switch-libvorbisidec")
     
         package:base():script("load")(package)
     end)

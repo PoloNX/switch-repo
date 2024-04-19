@@ -1,10 +1,10 @@
-package("libsdl_ttf")
+package("libsdl_mixer")
     set_base("switch-pkg")
     set_kind("library")
 
     on_load(function(package)
-        package:add("deps", "libsdl", "freetype", "harfbuzz")
-        package:data_set("pkgname", "switch-sdl2_ttf")
+        -- package:add("deps", "libsdl", "freetype", "harfbuzz")
+        package:data_set("pkgname", "switch-sdl2_mixer")
     
         package:base():script("load")(package)
     end)

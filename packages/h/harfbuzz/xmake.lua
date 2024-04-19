@@ -1,10 +1,10 @@
-package("libsdl_ttf")
+package("harfbuzz")
     set_base("switch-pkg")
     set_kind("library")
 
     on_load(function(package)
-        package:add("deps", "libsdl", "freetype", "harfbuzz")
-        package:data_set("pkgname", "switch-sdl2_ttf")
+        package:add("deps", "freetype")
+        package:data_set("pkgname", "switch-harfbuzz")
     
         package:base():script("load")(package)
     end)
@@ -14,13 +14,5 @@ package("libsdl_ttf")
     end)
 
     on_test(function (package)
-        assert(package:check_cxxsnippets({test = [[
-            #include <SDL2/SDL.h>
-            #include <SDL2/SDL_ttf.h>
-            int main(int argc, char** argv) {
-                TTF_Init();
-                TTF_Quit();
-                return 0;
-            }
-        ]]}, {configs = {defines = "SDL_MAIN_HANDLED"}}));
+        assert(package:has_cfuncs("hb_buffer_add_utf8", {includes = "hb.h"}))
     end)

@@ -3,7 +3,7 @@ package("libsdl_mixer")
     set_kind("library")
 
     on_load(function(package)
-        -- package:add("deps", "libsdl", "freetype", "harfbuzz")
+        package:add("deps", "libsdl", "flac", "libvorbisidec", "libmodplug", "mpg123", "opusfile")
         package:data_set("pkgname", "switch-sdl2_mixer")
     
         package:base():script("load")(package)

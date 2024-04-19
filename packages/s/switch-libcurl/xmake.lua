@@ -1,4 +1,4 @@
-package("switch-curl")
+package("switch-libcurl")
     set_base("switch-pkg")
     set_kind("library")
 

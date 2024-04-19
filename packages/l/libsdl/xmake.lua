@@ -1,10 +1,10 @@
-package("libsdl_ttf")
+package("libsdl")
     set_base("switch-pkg")
     set_kind("library")
 
     on_load(function(package)
-        package:add("deps", "libsdl", "freetype", "harfbuzz")
-        package:data_set("pkgname", "switch-sdl2_ttf")
+        package:add("deps", "mesa", "libnx")
+        package:data_set("pkgname", "switch-sdl2")
     
         package:base():script("load")(package)
     end)
@@ -13,14 +13,16 @@ package("libsdl_ttf")
         package:base():script("install")(package)
     end)
 
-    on_test(function (package)
-        assert(package:check_cxxsnippets({test = [[
-            #include <SDL2/SDL.h>
-            #include <SDL2/SDL_ttf.h>
-            int main(int argc, char** argv) {
-                TTF_Init();
-                TTF_Quit();
+    on_test(function(package)
+    local cxflags
+    assert(package:check_cxxsnippets({test = [[
+        int main(int argc, char** argv) {
+            CURL* curl = curl_easy_init();
+            if (curl) {
+                curl_easy_cleanup(curl);
                 return 0;
             }
-        ]]}, {configs = {defines = "SDL_MAIN_HANDLED"}}));
+            return 1;
+        }
+    ]] }, {configs = {cxflags = cxflags}, includes = {"curl/curl.h"}}))
     end)

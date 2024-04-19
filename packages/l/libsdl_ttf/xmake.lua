@@ -1,10 +1,10 @@
-package("libsdl_image")
+package("libsdl_ttf")
     set_base("switch-pkg")
     set_kind("library")
 
     on_load(function(package)
-        -- package:add("deps", "libsdl", "freetype", "harfbuzz")
-        package:data_set("pkgname", "switch-sdl2_image")
+        package:add("deps", "libsdl", "freetype", "harfbuzz")
+        package:data_set("pkgname", "switch-sdl2_ttf")
     
         package:base():script("load")(package)
     end)
@@ -16,10 +16,10 @@ package("libsdl_image")
     on_test(function (package)
         assert(package:check_cxxsnippets({test = [[
             #include <SDL2/SDL.h>
-            #include <SDL2/SDL_image.h>
+            #include <SDL2/SDL_ttf.h>
             int main(int argc, char** argv) {
-                IMG_Init(IMG_INIT_PNG);
-                IMG_Quit();
+                TTF_Init();
+                TTF_Quit();
                 return 0;
             }
         ]]}, {configs = {defines = "SDL_MAIN_HANDLED"}}));

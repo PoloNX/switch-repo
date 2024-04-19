@@ -16,10 +16,10 @@ package("libsdl_mixer")
     on_test(function (package)
         assert(package:check_cxxsnippets({test = [[
             #include <SDL2/SDL.h>
-            #include <SDL2/SDL_ttf.h>
+            #include <SDL2/SDL_mixer.h>
             int main(int argc, char** argv) {
-                TTF_Init();
-                TTF_Quit();
+                Mix_Init(MIX_INIT_OGG);
+                Mix_Quit();
                 return 0;
             }
         ]]}, {configs = {defines = "SDL_MAIN_HANDLED"}}));

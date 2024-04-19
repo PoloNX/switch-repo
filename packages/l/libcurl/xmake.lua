@@ -3,7 +3,7 @@ package("libcurl")
     set_kind("library")
 
     on_load(function(package)
-        package:add("deps", "switch-zlib", "libnx")
+        package:add("deps", "zlib", "libnx")
         package:data_set("pkgname", "switch-curl")
     
         package:base():script("load")(package)

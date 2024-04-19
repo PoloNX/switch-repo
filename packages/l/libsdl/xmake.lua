@@ -13,16 +13,12 @@ package("libsdl")
         package:base():script("install")(package)
     end)
 
-    on_test(function(package)
-    local cxflags
-    assert(package:check_cxxsnippets({test = [[
-        int main(int argc, char** argv) {
-            CURL* curl = curl_easy_init();
-            if (curl) {
-                curl_easy_cleanup(curl);
+    on_test(function (package)
+        assert(package:check_cxxsnippets({test = [[
+            #include <SDL2/SDL.h>
+            int main(int argc, char** argv) {
+                SDL_Init(0);
                 return 0;
             }
-            return 1;
-        }
-    ]] }, {configs = {cxflags = cxflags}, includes = {"curl/curl.h"}}))
+        ]]}, {configs = {defines = "SDL_MAIN_HANDLED"}}));
     end)

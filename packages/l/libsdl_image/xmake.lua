@@ -3,7 +3,7 @@ package("libsdl_image")
     set_kind("library")
 
     on_load(function(package)
-        -- package:add("deps", "libsdl", "freetype", "harfbuzz")
+        package:add("deps", "libsdl", "libpng", "libjpeg-turbo", "libwebp")
         package:data_set("pkgname", "switch-sdl2_image")
     
         package:base():script("load")(package)

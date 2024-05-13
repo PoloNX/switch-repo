@@ -1,19 +1,19 @@
 local function getVersion(version)
     local versions ={
-        ["2024.04.23-alpha"] = "archive/2c76f6bf1cd0b0d375d617de62ba9ada93e09457.tar.gz",
+        ["2024.04.23-alpha"] = "archive/ae9b053ce527faaef5356d1acfd4f7a392604451.tar.gz",
     }
     return versions[tostring(version)]
 end
 
 package("borealis")
-    set_homepage("https://github.com/xfangfang/borealis")
+    set_homepage("https://github.com/PoloNX/borealis")
     set_description("Hardware accelerated, Nintendo Switch inspired UI library for PC, Android, iOS, PSV, PS4 and Nintendo Switch")
     set_license("Apache-2.0")
 
-    set_urls("https://github.com/xfangfang/borealis/$(version)", {
+    set_urls("https://github.com/PoloNX/borealis/$(version)", {
         version = getVersion
     })
-    add_versions("2024.04.23-alpha", "e9a7b2e7b90871b76f5b2133f90052032bda4002eae424706d083c9d40a02772")
+    add_versions("2024.04.23-alpha", "f1dde726c122af4a40941ce8e0b27655eda9B0Bc6e80d4e9034f5c7978b3e288")
 
     add_configs("window", {description = "use window lib", default = "nanovg", type = "string"})
     add_configs("driver", {description = "use driver lib", default = "opengl", type = "string"})

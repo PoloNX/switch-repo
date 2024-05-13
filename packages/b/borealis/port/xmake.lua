@@ -119,8 +119,7 @@ target("borealis")
             add_files("library/lib/extern/glad/glad.c")
             add_includedirs("library/include/borealis/extern/glad")
         end 
-        add_packages("libnx")
-    end 
+        add_packages("libnx") 
     elseif is_plat("windows") or is_plat("linux") or is_plat("macosx") then
         if window == "glfw" then
             add_files("library/lib/platforms/glfw/*.cpp")

@@ -13,7 +13,7 @@ package("borealis")
     set_urls("https://github.com/PoloNX/borealis/$(version)", {
         version = getVersion
     })
-    add_versions("2024.04.23-alpha", "f1dde726c122af4a40941ce8e0b27655eda9B0Bc6e80d4e9034f5c7978b3e288")
+    add_versions("2024.04.23-alpha", "f1dde726c122af4a40941ce8e0b27655eda9b0bc6e80d4e9034f5c7978b3e288")
 
     add_configs("window", {description = "use window lib", default = "nanovg", type = "string"})
     add_configs("driver", {description = "use driver lib", default = "opengl", type = "string"})

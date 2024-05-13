@@ -18,8 +18,8 @@ package("simple-ini-parser")
             target("simple-ini-parser")
                 set_kind("$(kind)")
                 add_files("source/SimpleIniParser/*.cpp")
-                add_headerfiles("include/**.hpp")
                 add_includedirs("include/SimpleIniParser")
+                add_includedirs("include")
         ]])
         if package:config("shared") then
             configs.kind = "shared"

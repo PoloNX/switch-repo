@@ -3,7 +3,7 @@ package("switch-pkg")
     set_description("Switch package template")
 
     on_load(function (package)
-        package:add("deps", "switch-pacman")
+        -- package:add("deps", "switch-pacman")
     end)
 
     on_fetch(function (package)

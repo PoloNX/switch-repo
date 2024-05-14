@@ -13,15 +13,19 @@ package("switch-pkg")
         
         linkdirs = {}
         pkgconfig_files = {}
-        
-        local list = nil
 
-        if is_host("ubuntu") then
-            list = os.iorunv("dkp-pacman", { "-Q", "-l", pkgname})
+        local pacman_available = os.iorunv("pacman", { "--version" })
+        
+        if not pacman_available then
+            list = os.iorunv("dkp-pacman", { "-Ql", pkgname })
         else
-            list = os.iorunv("pacman", { "-Ql", pkgname})
+            list = os.iorunv("pacman", { "-Ql", pkgname })
         end
 
+        if not list then
+            cprint("${bright red}Package not found: ${reset}%s", pkgname)
+        return
+end
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)

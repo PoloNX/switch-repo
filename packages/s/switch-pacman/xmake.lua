@@ -11,5 +11,5 @@ package("switch-pacman")
     end)
 
     on_test(function (package)
-        os.vrun("pacman --version")
+        os.vrun("dkp-pacman --version")
     end)

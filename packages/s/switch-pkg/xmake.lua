@@ -14,9 +14,9 @@ package("switch-pkg")
         linkdirs = {}
         pkgconfig_files = {}
 
-        if is.exec("pacman") then
+        if is.exec("pacman") ~= nil then
             list = os.execute("pacman" .. " -Ql " .. pkgname)
-        elseif is.exec("dkp-pacman") then
+        elseif is.exec("dkp-pacman") ~= nil then
             list = os.execute("dkp-pacman" .. " -Ql " .. pkgname)
         else
             cprint("${bright red}Pacman not found: ${reset}%s", pkgname)

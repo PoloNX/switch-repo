@@ -11,9 +11,9 @@ package("switch-pacman")
     end)
 
     on_test(function (package)
-        if os.isexec("pacman") then
+        if os.isexec("pacman") ~= nil then
             os.vrun("pacman --version")
-        elseif os.isexec("dkp-pacman") then
+        elseif os.isexec("dkp-pacman") ~= nil then
             os.vrun("dkp-pacman --version")
         else
             raise("pacman not found!")

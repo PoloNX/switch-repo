@@ -15,10 +15,10 @@ package("switch-pkg")
         pkgconfig_files = {}
 
         -- Vérifier si pacman est disponible
-        local pacman_available = os.execv("pacman --version")
+        --local pacman_available = os.execv("pacman --version")
 
         -- Vérifier si dkp-pacman est disponible
-        local dkp_pacman_available = os.execv("dkp-pacman --version")
+        --local dkp_pacman_available = os.execv("dkp-pacman --version")
 
         if not pacman_available and not dkp_pacman_available then
             cprint("${bright red}Neither pacman nor dkp-pacman found: ${reset}Please install DevkitPro.")
@@ -27,7 +27,7 @@ package("switch-pkg")
 
         -- Vérifier si le package est installé
         local cmd = pacman_available and "pacman" or "dkp-pacman"
-        local list = os.execute(cmd .. " -Ql " .. pkgname)
+        local list = os.execute("dkp-pacman" .. " -Ql " .. pkgname)
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)

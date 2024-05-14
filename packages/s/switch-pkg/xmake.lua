@@ -10,22 +10,27 @@ package("switch-pkg")
         local pkgname = assert(package:data("pkgname"), "this package must not be used directly")
 
         local DEVKITPRO = os.getenv("DEVKITPRO")
-        
+
         linkdirs = {}
         pkgconfig_files = {}
 
         local pacman_available = os.iorunv("pacman", { "--version" })
-        
-        if not pacman_available then
-            list = os.iorunv("dkp-pacman", { "-Ql", pkgname })
-        else
-            list = os.iorunv("pacman", { "-Ql", pkgname })
+
+        local dkp_pacman_available = os.iorunv("dkp-pacman", { "--version" })
+
+        if not pacman_available and not dkp_pacman_available then
+            cprint("${bright red}Neither pacman nor dkp-pacman found: ${reset}Please install DevkitPro.")
+            return
         end
+
+        local cmd = pacman_available and "pacman" or "dkp-pacman"
+        local list = os.iorunv(cmd, { "-Ql", pkgname })
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)
-        return
-end
+            return
+        end
+
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)

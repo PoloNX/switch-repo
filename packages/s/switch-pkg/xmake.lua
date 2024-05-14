@@ -14,9 +14,9 @@ package("switch-pkg")
         linkdirs = {}
         pkgconfig_files = {}
 
-        local pacman_available = os.iorunv("pacman", { "--version" })
+        local pacman_available = os.execute("pacman --version")
 
-        local dkp_pacman_available = os.iorunv("dkp-pacman", { "--version" })
+        local dkp_pacman_available = os.execute("dkp-pacman --version")
 
         if not pacman_available and not dkp_pacman_available then
             cprint("${bright red}Neither pacman nor dkp-pacman found: ${reset}Please install DevkitPro.")
@@ -24,13 +24,7 @@ package("switch-pkg")
         end
 
         local cmd = pacman_available and "pacman" or "dkp-pacman"
-        local list = os.iorunv(cmd, { "-Ql", pkgname })
-
-        if not list then
-            cprint("${bright red}Package not found: ${reset}%s", pkgname)
-            return
-        end
-
+        local list = os.iorunv(cmd .. " -Ql " .. pkgname)
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)

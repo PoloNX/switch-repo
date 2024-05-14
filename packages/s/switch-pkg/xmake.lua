@@ -7,6 +7,17 @@ package("switch-pkg")
     end)
 
     on_fetch(function (package)
+        local function command_exists(command)
+            local path = os.getenv("PATH")
+            for dir in string.gmatch(path, "[^;]+") do
+                local file = dir .. "/" .. command
+                if os.rename(file, file) then
+                    return true
+                end
+            end
+            return false
+        end
+
         local pkgname = assert(package:data("pkgname"), "this package must not be used directly")
 
         local DEVKITPRO = os.getenv("DEVKITPRO")
@@ -14,9 +25,8 @@ package("switch-pkg")
         linkdirs = {}
         pkgconfig_files = {}
 
-        local pacman_available = os.execute("pacman --version")
-
-        local dkp_pacman_available = os.execute("dkp-pacman --version")
+        local pacman_available = command_exists("pacman")
+        local dkp_pacman_available = command_exists("dkp-pacman")
 
         if not pacman_available and not dkp_pacman_available then
             cprint("${bright red}Neither pacman nor dkp-pacman found: ${reset}Please install DevkitPro.")
@@ -24,7 +34,7 @@ package("switch-pkg")
         end
 
         local cmd = pacman_available and "pacman" or "dkp-pacman"
-        local list = os.iorunv(cmd .. " -Ql " .. pkgname)
+        local list = os.iorunv(cmd, { "-Ql", pkgname })
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)

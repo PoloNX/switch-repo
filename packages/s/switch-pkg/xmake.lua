@@ -14,8 +14,14 @@ package("switch-pkg")
         linkdirs = {}
         pkgconfig_files = {}
 
-        local cmd = pacman_available and "pacman" or "dkp-pacman"
-        local list = os.execute("dkp-pacman" .. " -Ql " .. pkgname)
+        if is.exec("pacman") then
+            list = os.execute("pacman" .. " -Ql " .. pkgname)
+        elseif is.exec("dkp-pacman") then
+            list = os.execute("dkp-pacman" .. " -Ql " .. pkgname)
+        else
+            cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
+            return
+        end
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)

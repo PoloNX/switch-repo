@@ -77,11 +77,18 @@ package("switch-pkg")
     end)
 
     on_install(function (package)
-        local pacman = package:dep("switch-pacman"):fetch()
-        if not pacman then
-            return
-        end
+        --local pacman = package:dep("switch-pacman"):fetch()
+        --if not pacman then
+        --    return
+        --end
         local pkgname = assert(package:data("pkgname"), "this package must not be used directly")
 
-        os.vrunv("pacman", {"-S", pkgname})
+        if os.isexec("pacman") then
+            os.vrunv("pacman", {"-S", pkgname})
+        elseif os.isexec("dkp-pacman") then
+            os.vrunv("dkp-pacman", {"-S", pkgname})
+        else
+            cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
+            return
+        end
     end)

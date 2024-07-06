@@ -71,21 +71,67 @@ package("switch-pkg")
             result.links = table.unique(result.links)
         end
 
-        cprint("${bright yellow}Package %s found: ${reset}%s", pkgname, foundpc and "yes" or "no")
+       cprint("${bright yellow}Package %s found: ${reset}%s", pkgname, foundpc and "yes" or "no")
+
+        if #result.includedirs > 0 then
+            cprint("${bright green}Includedirs:${reset}")
+            for _, includedir in ipairs(result.includedirs) do
+                cprint("  %s", includedir)
+            end
+        end
+
+        if #result.linkdirs > 0 then
+            cprint("${bright green}Linkdirs:${reset}")
+            for _, linkdir in ipairs(result.linkdirs) do
+                cprint("  %s", linkdir)
+            end
+        end
+
+        if #result.links > 0 then
+            cprint("${bright green}Links:${reset}")
+            for _, link in ipairs(result.links) do
+                cprint("  %s", link)
+            end
+        end
+
+        if result.version then
+            cprint("${bright green}Version:${reset} %s", result.version)
+        end
 
         return result
     end)
 
     on_install(function (package)
-        --local pacman = package:dep("switch-pacman"):fetch()
-        --if not pacman then
-        --    return
-        --end
         local pkgname = assert(package:data("pkgname"), "this package must not be used directly")
 
-        if os.isexec("pacman") then
+        -- Vérifier si un exécutable est disponible
+        local function check_executable(exec)
+            local handle = io.popen("where " .. exec .. " 2>nul")
+            local result = handle:read("*a")
+            handle:close()
+            return result ~= ""
+        end
+
+        -- Debug : Imprimer les variables d'environnement PATH
+        cprint("${bright yellow}PATH: ${reset}%s", os.getenv("PATH"))
+
+        -- Debug : Imprimer le chemin absolu de pacman
+        if check_executable("pacman") then
+            cprint("${bright green}Pacman found in PATH${reset}")
+        else
+            cprint("${bright red}Pacman not found in PATH${reset}")
+        end
+
+        -- Debug : Imprimer le chemin absolu de dkp-pacman
+        if check_executable("dkp-pacman") then
+            cprint("${bright green}dkp-pacman found in PATH${reset}")
+        else
+            cprint("${bright red}dkp-pacman not found in PATH${reset}")
+        end
+
+        if check_executable("pacman") then
             os.vrunv("pacman", {"-S", pkgname})
-        elseif os.isexec("dkp-pacman") then
+        elseif check_executable("dkp-pacman") then
             os.vrunv("dkp-pacman", {"-S", pkgname})
         else
             cprint("${bright red}Pacman not found: ${reset}%s", pkgname)

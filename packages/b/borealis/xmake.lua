@@ -2,6 +2,7 @@ local function getVersion(version)
     local versions ={
         ["2024.04.23-alpha"] = "archive/ae9b053ce527faaef5356d1acfd4f7a392604451.tar.gz",
         ["2024.07.03"] = "archive/5abaa17b01709656a8a03ce5f041094e2dfb32ad.tar.gz",
+        ["2024.07.06"] = "archive/009fe776a29510202d73d576708c41ec9d5b461b.tar.gz",
     }
     return versions[tostring(version)]
 end
@@ -16,6 +17,7 @@ package("borealis")
     })
     add_versions("2024.04.23-alpha", "f1dde726c122af4a40941ce8e0b27655eda9b0bc6e80d4e9034f5c7978b3e288")
     add_versions("2024.07.03", "16a8e6c7369fc2a002a81bd70ee517cfd3b2e7dc221d8d7ba7f67519ca7697d8")
+    add_versions("2024.07.06", "c82fae079082d64e92f45d158dc27b44f69ea5c93527f0bf51adc756fd73d389")
 
     add_configs("window", {description = "use window lib", default = "nanovg", type = "string"})
     add_configs("driver", {description = "use driver lib", default = "opengl", type = "string"})

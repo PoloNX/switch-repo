@@ -29,7 +29,7 @@ package("borealis")
         "fmt",
         "tweeny",
         "stb",
-        "tinyxml2", {repo = "zeromake-repo"}
+        "tinyxml2"
     )
     add_includedirs("include")
     if is_plat("windows") then

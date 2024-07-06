@@ -12,20 +12,22 @@ package("switch-pkg")
         local DEVKITPRO = os.getenv("DEVKITPRO")
 
         linkdirs = {}
+        lib_files = {}
         pkgconfig_files = {}
 
         if os.isexec("pacman") then
-            list = os.execute("pacman" .. " -Ql " .. pkgname)
+            list = os.iorunv("pacman" .. " -Ql " .. pkgname)
         elseif os.isexec("dkp-pacman") then
-            list = os.execute("dkp-pacman" .. " -Ql " .. pkgname)
+            list = os.iorunv("dkp-pacman" .. " -Ql " .. pkgname)
         else
             cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
-            return
         end
+
+        list = os.iorunv("pacman", {"-Ql", pkgname})
+        vprint("list :\n %s", list)
 
         if not list then
             cprint("${bright red}Package not found: ${reset}%s", pkgname)
-            return
         end
 
         for _, line in ipairs(list:split('\n', {plain = true})) do
@@ -35,6 +37,14 @@ package("switch-pkg")
             end
             if line:endswith(".so") or line:endswith(".a") or line:endswith(".lib") then
                 table.insert(linkdirs, path.directory(line))
+                if line:endswith(".a") then
+                    local basename = path.basename(line)
+                    if basename:startswith("lib") then
+                        basename = basename:sub(4)  -- Remove "lib" prefix
+                    end
+                    table.insert(lib_files, basename)
+                    table.insert(linkdirs, path.directory(line))
+                end
             end
         end
         linkdirs = table.unique(linkdirs)
@@ -69,33 +79,36 @@ package("switch-pkg")
             result.includedirs = table.unique(result.includedirs)
             result.linkdirs = table.unique(result.linkdirs)
             result.links = table.unique(result.links)
+        else
+            result.linkdirs = linkdirs
+            result.links = lib_files
         end
 
-       cprint("${bright yellow}Package %s found: ${reset}%s", pkgname, foundpc and "yes" or "no")
+       vprint("${bright yellow}Package %s found: ${reset}%s", pkgname, foundpc and "yes" or "no")
 
         if #result.includedirs > 0 then
-            cprint("${bright green}Includedirs:${reset}")
+            vprint("${bright green}Includedirs:${reset}")
             for _, includedir in ipairs(result.includedirs) do
-                cprint("  %s", includedir)
+                vprint("  %s", includedir)
             end
         end
 
         if #result.linkdirs > 0 then
-            cprint("${bright green}Linkdirs:${reset}")
+            vprint("${bright green}Linkdirs:${reset}")
             for _, linkdir in ipairs(result.linkdirs) do
-                cprint("  %s", linkdir)
+                vprint("  %s", linkdir)
             end
         end
 
         if #result.links > 0 then
-            cprint("${bright green}Links:${reset}")
+            vprint("${bright green}Links:${reset}")
             for _, link in ipairs(result.links) do
-                cprint("  %s", link)
+                vprint("  %s", link)
             end
         end
 
         if result.version then
-            cprint("${bright green}Version:${reset} %s", result.version)
+            vprint("${bright green}Version:${reset} %s", result.version)
         end
 
         return result

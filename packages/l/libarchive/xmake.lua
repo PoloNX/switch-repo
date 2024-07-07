@@ -4,7 +4,7 @@ package("libarchive")
 
     on_load(function(package)
         package:data_set("deps", "bzip2", "zlib", "liblzma", "lz4", "libexpat", "libzstd")
-        package:data_set("pkgname", "switch-bzip2")
+        package:data_set("pkgname", "switch-libarchive")
     
         package:base():script("load")(package)
     end)

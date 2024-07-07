@@ -58,6 +58,12 @@ package("switch-pkg")
 
         import("package.manager.pkgconfig.find_package", {alias = "find_package_from_pkgconfig"})
 
+        if pkgconfig_files then
+            for i, pkgconfig_file in ipairs(pkgconfig_files) do
+                pkgconfig_files[i] = pkgconfig_file:gsub(DEVKITPRO, "/opt/devkitpro")
+            end
+        end
+        
         local foundpc = false
         local pcresult = {includedirs = {}, links = {}, linkdirs = {}}
         for _, pkgconfig_file in ipairs(pkgconfig_files) do 

@@ -3,7 +3,7 @@ package("switch-pkg")
     set_description("Switch package template")
 
     on_load(function (package)
-        package:add("deps", "switch-pacman")
+        -- package:add("deps", "switch-pacman")
     end)
 
     on_fetch(function (package)
@@ -17,12 +17,12 @@ package("switch-pkg")
         includedirs = {}
         pkgconfig_files = {}
 
-        if os.isexec("pacman") then
-            list = os.iorunv("pacman" .. " -Ql " .. pkgname)
-        elseif os.isexec("dkp-pacman") then
+        if os.isexec("dkp-pacman") then
             list = os.iorunv("dkp-pacman" .. " -Ql " .. pkgname)
+        elseif os.isexec("pacman") then
+            list = os.iorunv("pacman" .. " -Ql " .. pkgname)
         else
-            list = os.iorunv("dkp-pacman", {"-Ql", pkgname})
+            list = os.iorunv("pacman", {"-Ql", pkgname})
             cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
         end
 

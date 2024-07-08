@@ -22,11 +22,12 @@ package("switch-pkg")
         elseif os.isexec("dkp-pacman") then
             list = os.iorunv("dkp-pacman" .. " -Ql " .. pkgname)
         else
-            vprint("${bright red}Pacman not found: ${reset}%s", pkgname)
+            list = os.iorunv("pacman", {"-Ql", pkgname})
+            cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
         end
 
-        list = os.iorunv("pacman", {"-Ql", pkgname})
         list = list:gsub("/opt/devkitpro", DEVKITPRO)
+        
         vprint("list :\n %s", list)
 
         if not list then

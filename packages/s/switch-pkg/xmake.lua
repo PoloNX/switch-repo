@@ -22,6 +22,7 @@ package("switch-pkg")
         elseif os.isexec("pacman") then
             list = os.iorunv("pacman" .. " -Ql " .. pkgname)
         else
+            list = os.iorunv("dkp-pacman" .. " -Ql " .. pkgname)
             cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
         end
 

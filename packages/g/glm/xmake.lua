@@ -1,10 +1,9 @@
-package("deko3d")
+package("glm")
     set_base("switch-pkg")
     set_kind("library")
 
     on_load(function(package)
-        package:add("deps", "libnx")
-        package:data_set("pkgname", "deko3d")
+        package:data_set("pkgname", "switch-glm")
     
         package:base():script("load")(package)
     end)

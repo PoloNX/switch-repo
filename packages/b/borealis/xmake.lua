@@ -35,7 +35,10 @@ package("borealis")
     if is_plat("windows") then
         add_includedirs("include/compat")
         add_syslinks("wlanapi", "iphlpapi", "ws2_32")
+    elseif is_plat("switch") then 
+        add_deps("libnx", "deko3d", "glm")
     end
+    
     on_load(function (package)
         local window = package:config("window")
         local driver = package:config("driver")

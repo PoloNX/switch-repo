@@ -76,6 +76,7 @@ elseif get_config("window") == "glfw" then
     add_requires("xfangfang_glfw")
 elseif get_config("window") == "nanovg" and is_plat("switch") then 
     add_requires("deko3d")
+    add_requires("glm")
 end
 
 target("borealis")
@@ -111,6 +112,7 @@ target("borealis")
             add_files("library/lib/extern/nanovg/nanovg.c")
             add_includedirs("library/include/borealis/extern/nanovg")
             add_packages("deko3d")
+            add_packages("glm")
             add_defines("BOREALIS_USE_DEKO3D")
         end 
 

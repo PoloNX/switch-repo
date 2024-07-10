@@ -17,12 +17,13 @@ package("switch-pkg")
         includedirs = {}
         pkgconfig_files = {}
 
-        if os.isexec("dkp-pacman") then
+        import("lib.detect.find_tool")
+
+        if find_tool("dkp-pacman") then
             list = os.iorunv("dkp-pacman" .. " -Ql " .. pkgname)
-        elseif os.isexec("pacman") then
+        elseif find_tool("pacman") then
             list = os.iorunv("pacman" .. " -Ql " .. pkgname)
         else
-            list = os.iorunv("dkp-pacman" .. " -Ql " .. pkgname)
             cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
         end
 

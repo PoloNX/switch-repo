@@ -19,10 +19,12 @@ package("switch-pkg")
 
         import("lib.detect.find_tool")
 
-        if find_tool("dkp-pacman") then
+        if find_tool("dkp-pacman", {program = "dkp-pacman"}) then
             list = os.iorunv("dkp-pacman" .. " -Ql " .. pkgname)
+
         elseif find_tool("pacman") then
             list = os.iorunv("pacman" .. " -Ql " .. pkgname)
+
         else
             cprint("${bright red}Pacman not found: ${reset}%s", pkgname)
         end

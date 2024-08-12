@@ -41,7 +41,7 @@ else
 end
 if is_plat("mingw") then
     add_defines("WINVER=0x0605")
-elseif is_plat("switch") then 
+elseif is_plat("cross") then 
     -- You need to use this toolchain https://github.com/PoloNX/xmake-devkitpro
     add_repositories("switch-repo https://github.com/PoloNX/switch-repo")
     add_requires("libnx")
@@ -74,7 +74,7 @@ if get_config("window") == "sdl" then
     end
 elseif get_config("window") == "glfw" then
     add_requires("xfangfang_glfw")
-elseif get_config("window") == "nanovg" and is_plat("switch") then 
+elseif get_config("window") == "nanovg" and is_plat("cross") then 
     add_requires("deko3d")
     add_requires("glm")
 end
@@ -92,7 +92,7 @@ target("borealis")
     local driver = get_config("driver")
 
 
-    if is_plat("switch") then 
+    if is_plat("cross") then 
         add_defines("__SWITCH__", "HAVE_LIBNX", "SWITCH", "STBI_NO_THREAD_LOCALS")
         add_files("library/lib/extern/switch-libpulsar/**.c")
         add_files("library/lib/platforms/switch/*.cpp")

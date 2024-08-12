@@ -35,7 +35,7 @@ package("borealis")
     if is_plat("windows") then
         add_includedirs("include/compat")
         add_syslinks("wlanapi", "iphlpapi", "ws2_32")
-    elseif is_plat("switch") then 
+    elseif is_plat("cross") then 
         add_deps("libnx", "deko3d", "glm")
     end
     

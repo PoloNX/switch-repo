@@ -19,7 +19,7 @@ package("borealis")
     add_versions("2024.07.03", "16a8e6c7369fc2a002a81bd70ee517cfd3b2e7dc221d8d7ba7f67519ca7697d8")
     add_versions("2024.07.06", "c82fae079082d64e92f45d158dc27b44f69ea5c93527f0bf51adc756fd73d389")
 
-    add_configs("window", {description = "use window lib", default = "nanovg", type = "string"})
+    add_configs("window", {description = "use window lib", default = "glfw", type = "string"})
     add_configs("driver", {description = "use driver lib", default = "opengl", type = "string"})
     add_configs("winrt", {description = "use winrt api", default = false, type = "boolean"})
     add_deps(

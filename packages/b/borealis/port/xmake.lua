@@ -73,7 +73,7 @@ if get_config("window") == "sdl" then
         add_requires("sdl2")
     end
 elseif get_config("window") == "glfw" then
-    add_requires("xfangfang_glfw")
+    add_requires("glfw")
 elseif get_config("window") == "nanovg" and is_plat("cross") then 
     add_requires("deko3d")
     add_requires("glm")
@@ -100,7 +100,7 @@ target("borealis")
         if window == "glfw" then 
             remove_files("library/lib/platforms/switch/switch_video.cpp")
             add_files("library/lib/platforms/glfw/glfw_video.cpp")
-            add_packages("xfangfang_glfw")
+            add_packages("glfw")
             add_defines("__GLFW__")
         elseif window == "sdl" then 
             remove_files("library/lib/platforms/switch/switch_video.cpp")

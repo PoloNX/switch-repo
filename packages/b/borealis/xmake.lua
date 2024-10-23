@@ -44,7 +44,7 @@ package("borealis")
         local driver = package:config("driver")
         local winrt = package:config("winrt")
         if window == "glfw" then
-            package:add("deps", "xfangfang_glfw")
+            package:add("deps", "glfw")
         elseif window == "sdl" then
             package:add("deps", "sdl2")
         end

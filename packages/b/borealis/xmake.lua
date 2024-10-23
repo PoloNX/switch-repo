@@ -36,7 +36,7 @@ package("borealis")
         add_includedirs("include/compat")
         add_syslinks("wlanapi", "iphlpapi", "ws2_32")
     elseif is_plat("cross") then 
-        add_deps("libnx", "deko3d", "glm")
+        add_deps("libnx", "glm")
     end
     
     on_load(function (package)
@@ -47,6 +47,10 @@ package("borealis")
             package:add("deps", "glfw")
         elseif window == "sdl" then
             package:add("deps", "sdl2")
+        elseif window == "nanovg" then
+            if is_plat("cross") then
+                package:add("deps", "deko3d")
+            end
         end
         if driver == "opengl" then
             --package:add("deps", "glad =0.1.36")

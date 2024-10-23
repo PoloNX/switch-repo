@@ -1,4 +1,4 @@
-package("glm")
+package("glfw")
     set_base("switch-pkg")
     set_kind("library")
 

@@ -4,7 +4,7 @@ package("glfw")
 
     on_load(function(package)
         package:add("deps", "mesa")
-        package:data_set("pkgname", "glfw")
+        package:data_set("pkgname", "switch-glfw")
     
         package:base():script("load")(package)
     end)

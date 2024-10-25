@@ -1,0 +1,33 @@
+diff --git a/src/ftxui/screen/terminal.cpp b/src/ftxui/screen/terminal.cpp
+index 8878a1f..22502f5 100644
+--- a/src/ftxui/screen/terminal.cpp
++++ b/src/ftxui/screen/terminal.cpp
+@@ -11,14 +11,18 @@
+ 
+ #ifndef NOMINMAX
+ #define NOMINMAX
+-#endif
++#endif 
+ 
+ #include <windows.h>
+ #else
++
++#ifndef __SWITCH__
+ #include <sys/ioctl.h>  // for winsize, ioctl, TIOCGWINSZ
+ #include <unistd.h>     // for STDOUT_FILENO
+ #endif
+ 
++#endif
++
+ namespace ftxui {
+ 
+ namespace {
+@@ -107,6 +111,8 @@ Dimensions Size() {
+   }
+ 
+   return FallbackSize();
++#elif defined(__SWITCH__)
++  return Dimensions(80, 45);
+ #else
+   winsize w{};
+   const int status = ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);  // NOLINT

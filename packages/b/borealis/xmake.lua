@@ -3,7 +3,8 @@ local function getVersion(version)
         ["2024.04.23-alpha"] = "archive/ae9b053ce527faaef5356d1acfd4f7a392604451.tar.gz",
         ["2024.07.03"] = "archive/5abaa17b01709656a8a03ce5f041094e2dfb32ad.tar.gz",
         ["2024.07.06"] = "archive/009fe776a29510202d73d576708c41ec9d5b461b.tar.gz",
-        ["2025.04.13"] = "archive/83a0681d20caa95fdfb3f50b913a52406246b60a.tar.gz"
+        ["2025.04.13"] = "archive/83a0681d20caa95fdfb3f50b913a52406246b60a.tar.gz",
+        ["2025.07.12"] = "archive/8a23ed0ceb821769912278f1640a1d9306fe6791.tar.gz"
     }
     return versions[tostring(version)]
 end
@@ -20,6 +21,7 @@ package("borealis")
     add_versions("2024.07.03", "16a8e6c7369fc2a002a81bd70ee517cfd3b2e7dc221d8d7ba7f67519ca7697d8")
     add_versions("2024.07.06", "c82fae079082d64e92f45d158dc27b44f69ea5c93527f0bf51adc756fd73d389")
     add_versions("2025.04.13", "1bc975eb4e7852bd9877f66b5af504c3a01f7bd066c698bcb1c4423682637333")
+    add_versions("2025.07.12", "0681a6e83343b673e0baa551121db40a0c99c4715005ef1c07c4b36f5c272bd2")
 
     add_configs("window", {description = "use window lib", default = "glfw", type = "string"})
     add_configs("driver", {description = "use driver lib", default = "opengl", type = "string"})
@@ -39,6 +41,8 @@ package("borealis")
         add_syslinks("wlanapi", "iphlpapi", "ws2_32")
     elseif is_plat("cross") then 
         add_deps("libnx", "glm")
+    elseif is_plat("linux") the,
+        add_deps("dbus")
     end
     
     on_load(function (package)

@@ -46,6 +46,8 @@ elseif is_plat("cross") then
     add_repositories("switch-repo https://github.com/PoloNX/switch-repo")
     add_requires("libnx")
     platform_resources_path="\"romfs:/\""
+elseif is_plat("linux") then 
+    add_requires("dbus")
 end
 
 add_requires("tinyxml2")
@@ -159,6 +161,8 @@ target("borealis")
         if is_plat("macosx") then
             add_frameworks("SystemConfiguration", "CoreWlan")
             add_files("library/lib/platforms/desktop/desktop_darwin.mm")
+        elseif is_plat("linux") then 
+            add_packages("dbus")
         end
     end
     

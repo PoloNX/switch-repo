@@ -41,7 +41,7 @@ package("borealis")
         add_syslinks("wlanapi", "iphlpapi", "ws2_32")
     elseif is_plat("cross") then 
         add_deps("libnx", "glm")
-    elseif is_plat("linux") the,
+    elseif is_plat("linux") then
         add_deps("dbus")
     end
     

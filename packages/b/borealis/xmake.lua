@@ -4,7 +4,8 @@ local function getVersion(version)
         ["2024.07.03"] = "archive/5abaa17b01709656a8a03ce5f041094e2dfb32ad.tar.gz",
         ["2024.07.06"] = "archive/009fe776a29510202d73d576708c41ec9d5b461b.tar.gz",
         ["2025.04.13"] = "archive/83a0681d20caa95fdfb3f50b913a52406246b60a.tar.gz",
-        ["2025.07.12"] = "archive/8a23ed0ceb821769912278f1640a1d9306fe6791.tar.gz"
+        ["2025.07.12"] = "archive/8a23ed0ceb821769912278f1640a1d9306fe6791.tar.gz",
+        ["2025.08.02"] = "archive/8027b02b16cb52f115c6a772efd1e770c61f87a4.tar.gz",
     }
     return versions[tostring(version)]
 end
@@ -22,6 +23,7 @@ package("borealis")
     add_versions("2024.07.06", "c82fae079082d64e92f45d158dc27b44f69ea5c93527f0bf51adc756fd73d389")
     add_versions("2025.04.13", "1bc975eb4e7852bd9877f66b5af504c3a01f7bd066c698bcb1c4423682637333")
     add_versions("2025.07.12", "0681a6e83343b673e0baa551121db40a0c99c4715005ef1c07c4b36f5c272bd2")
+    add_versions("2025.08.02", "e9868c490a4e2299c26bfdc3d1eb9392b31bcad7af528742f8f7ab3abff91305")
 
     add_configs("window", {description = "use window lib", default = "glfw", type = "string"})
     add_configs("driver", {description = "use driver lib", default = "opengl", type = "string"})

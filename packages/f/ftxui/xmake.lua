@@ -13,6 +13,7 @@ package("ftxui")
     add_deps("cmake")
 
     -- add_patches("5.0.0", "patches/5.0.0/switch.patch", "61e0544177c8146a9e5f2456458274d4f590c0132bb86f6d10108b02525ce04c")
+    add_patches("6.1.9", "patches/6.1.9/switch.patch", "0444012b9de82fd82e71587414d92a6f0ed27099376eb74a617bd4bb1996a265")
 
     if is_plat("windows") then
         add_configs("shared", {description = "Build shared library.", default = false, type = "boolean", readonly = true})

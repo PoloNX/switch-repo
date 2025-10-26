@@ -1,3 +1,13 @@
+From 9f4871bc68e44409326961d0dd7e26f382a193d4 Mon Sep 17 00:00:00 2001
+From: PoloNX <geyrecharlie@gmail.com>
+Date: Sun, 26 Oct 2025 23:03:51 +0100
+Subject: [PATCH] Apply switch changes for packaging
+
+---
+ src/ftxui/component/screen_interactive.cpp | 5 ++++-
+ src/ftxui/screen/terminal.cpp              | 5 ++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
 index 6dc982f0..f22288ea 100644
 --- a/src/ftxui/component/screen_interactive.cpp
@@ -45,3 +55,6 @@ index feeeba95..6d53f165 100644
  #else
    winsize w{};
    const int status = ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);  // NOLINT
+-- 
+2.51.1
+

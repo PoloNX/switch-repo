@@ -23,11 +23,10 @@ package("ftxui")
 
     add_links("ftxui-component", "ftxui-dom", "ftxui-screen")
 
-    on_install("linux", "windows", "macosx", "bsd", "mingw", "cross", function (package)
-        local configs = {"-DFTXUI_BUILD_DOCS=OFF", "-DFTXUI_BUILD_EXAMPLES=OFF"}
-        table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
-        table.insert(configs, "-DBUILD_SHARED_LIBS=" .. (package:config("shared") and "ON" or "OFF"))
-        import("package.tools.cmake").install(package, configs)
+    on_install("cross", function (package)
+        os.cp(path.join(os.scriptdir(), "port", "xmake.lua"), "xmake.lua")
+        import("package.tools.xmake").install(package, configs)
+        os.cp("include/*", package:installdir("include").."/")
     end)
 
     on_test(function (package)

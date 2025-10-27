@@ -1,18 +1,5 @@
-diff --git a/src/ftxui/component/loop.cpp b/src/ftxui/component/loop.cpp
-index d16c67b4..6aac6317 100644
---- a/src/ftxui/component/loop.cpp
-+++ b/src/ftxui/component/loop.cpp
-@@ -20,7 +20,7 @@ namespace ftxui {
- // NOLINTNEXTLINE
- Loop::Loop(ScreenInteractive* screen, Component component)
-     : screen_(screen), component_(std::move(component)) {
--  screen_->PreMain();
-+  //screen_->PreMain();
- }
- 
- Loop::~Loop() {
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..138aa21f 100644
+index 77d164ac..67a411b5 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -28,6 +15,35 @@ index 77d164ac..138aa21f 100644
  #include <unistd.h>  // for STDIN_FILENO, read
  #endif
  
+@@ -506,17 +511,17 @@ bool ScreenInteractive::HasQuitted() {
+ // private
+ void ScreenInteractive::PreMain() {
+   // Suspend previously active screen:
+-  if (g_active_screen) {
+-    std::swap(suspended_screen_, g_active_screen);
+-    // Reset cursor position to the top of the screen and clear the screen.
+-    suspended_screen_->ResetCursorPosition();
+-    std::cout << suspended_screen_->ResetPosition(/*clear=*/true);
+-    suspended_screen_->dimx_ = 0;
+-    suspended_screen_->dimy_ = 0;
+-
+-    // Reset dimensions to force drawing the screen again next time:
+-    suspended_screen_->Uninstall();
+-  }
++  // if (g_active_screen) {
++  //   std::swap(suspended_screen_, g_active_screen);
++  //   // Reset cursor position to the top of the screen and clear the screen.
++  //   suspended_screen_->ResetCursorPosition();
++  //   std::cout << suspended_screen_->ResetPosition(/*clear=*/true);
++  //   suspended_screen_->dimx_ = 0;
++  //   suspended_screen_->dimy_ = 0;
++
++  //   // Reset dimensions to force drawing the screen again next time:
++  //   suspended_screen_->Uninstall();
++  // }
+ 
+   // This screen is now active:
+   g_active_screen = this;
 @@ -657,6 +662,13 @@ void ScreenInteractive::Install() {
  
    SetConsoleMode(stdin_handle, in_mode);

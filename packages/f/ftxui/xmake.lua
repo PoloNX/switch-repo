@@ -10,7 +10,7 @@ package("ftxui")
     add_versions("v4.1.1", "9009d093e48b3189487d67fc3e375a57c7b354c0e43fc554ad31bec74a4bc2dd")
     add_versions("v3.0.0", "a8f2539ab95caafb21b0c534e8dfb0aeea4e658688797bb9e5539729d9258cc1")
 
-    add_deps("cmake")
+    add_deps("cmake", "libnx")
 
     -- add_patches("5.0.0", "patches/5.0.0/switch.patch", "61e0544177c8146a9e5f2456458274d4f590c0132bb86f6d10108b02525ce04c")
     add_patches("6.1.9", "patches/6.1.9/switch.patch", "d35a96b5c48e0373ff0c66dc90635f5d83097894e88f8ee2928507a6b5613875")

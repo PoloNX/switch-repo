@@ -12,7 +12,7 @@ index d16c67b4..6aac6317 100644
  
  Loop::~Loop() {
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..c26aa984 100644
+index 77d164ac..1341d3a8 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -28,7 +28,7 @@ index 77d164ac..c26aa984 100644
  #include <unistd.h>  // for STDIN_FILENO, read
  #endif
  
-@@ -657,6 +662,84 @@ void ScreenInteractive::Install() {
+@@ -657,6 +662,82 @@ void ScreenInteractive::Install() {
  
    SetConsoleMode(stdin_handle, in_mode);
    SetConsoleMode(stdout_handle, out_mode);
@@ -96,8 +96,6 @@ index 77d164ac..c26aa984 100644
 +        // svcSleepThread(16000000); // 16 ms (16,000,000 ns) if you want to use svc
 +        usleep(16000);
 +      }
-+
-+      padExit();
 +      // close write fd
 +      close(write_fd);
 +    });

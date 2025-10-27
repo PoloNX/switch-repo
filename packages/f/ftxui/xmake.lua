@@ -21,7 +21,9 @@ package("ftxui")
         add_syslinks("pthread")
     end
 
-    add_links("ftxui-component", "ftxui-dom", "ftxui-screen")
+    -- The port builds a single target named `ftxui` (see port/xmake.lua).
+    -- Consumers should link against that single library name.
+    add_links("ftxui")
 
     on_install("cross", function (package)
         os.cp(path.join(os.scriptdir(), "port", "xmake.lua"), "xmake.lua")

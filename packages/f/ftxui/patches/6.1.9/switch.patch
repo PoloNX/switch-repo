@@ -134,7 +134,7 @@ index 062cb234..e69de29b 100644
 -}  // namespace ftxui
 -// NOLINTEND
 diff --git a/src/ftxui/screen/terminal.cpp b/src/ftxui/screen/terminal.cpp
-index 8878a1f9..2964fc89 100644
+index 8878a1f9..87db2aa3 100644
 --- a/src/ftxui/screen/terminal.cpp
 +++ b/src/ftxui/screen/terminal.cpp
 @@ -15,7 +15,9 @@
@@ -152,7 +152,7 @@ index 8878a1f9..2964fc89 100644
  
    return FallbackSize();
 +#elif defined(__SWITCH__)
-+  return Dimensions{80, 45};
++  return Dimensions{160, 45};
  #else
    winsize w{};
    const int status = ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);  // NOLINT

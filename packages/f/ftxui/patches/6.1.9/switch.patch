@@ -1,5 +1,5 @@
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..9971d25f 100644
+index 77d164ac..0f9fab7c 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -67,69 +67,8 @@ index 77d164ac..9971d25f 100644
  #else
    for (const int signal : {SIGWINCH, SIGTSTP}) {
      InstallSignalHandler(signal);
-@@ -697,44 +709,44 @@ void ScreenInteractive::Install() {
- 
- #endif
- 
--  auto enable = [&](const std::vector<DECMode>& parameters) {
--    std::cout << Set(parameters);
--    on_exit_functions.emplace([=] { std::cout << Reset(parameters); });
--  };
--
--  auto disable = [&](const std::vector<DECMode>& parameters) {
--    std::cout << Reset(parameters);
--    on_exit_functions.emplace([=] { std::cout << Set(parameters); });
--  };
--
--  if (use_alternative_screen_) {
--    enable({
--        DECMode::kAlternateScreen,
--    });
--  }
--
--  disable({
--      // DECMode::kCursor,
--      DECMode::kLineWrap,
--  });
--
--  if (track_mouse_) {
--    enable({DECMode::kMouseVt200});
--    enable({DECMode::kMouseAnyEvent});
--    enable({DECMode::kMouseUrxvtMode});
--    enable({DECMode::kMouseSgrExtMode});
--  }
-+  // auto enable = [&](const std::vector<DECMode>& parameters) {
-+  //   std::cout << Set(parameters);
-+  //   on_exit_functions.emplace([=] { std::cout << Reset(parameters); });
-+  // };
-+
-+  // auto disable = [&](const std::vector<DECMode>& parameters) {
-+  //   std::cout << Reset(parameters);
-+  //   on_exit_functions.emplace([=] { std::cout << Set(parameters); });
-+  // };
-+
-+  // if (use_alternative_screen_) {
-+  //   enable({
-+  //       DECMode::kAlternateScreen,
-+  //   });
-+  // }
-+
-+  // disable({
-+  //     // DECMode::kCursor,
-+  //     DECMode::kLineWrap,
-+  // });
-+
-+  // if (track_mouse_) {
-+  //   enable({DECMode::kMouseVt200});
-+  //   enable({DECMode::kMouseAnyEvent});
-+  //   enable({DECMode::kMouseUrxvtMode});
-+  //   enable({DECMode::kMouseSgrExtMode});
-+  // }
- 
-   // After installing the new configuration, flush it to the terminal to
-   // ensure it is fully applied:
--  Flush();
-+  //Flush();
+@@ -730,11 +742,11 @@ void ScreenInteractive::Install() {
+   Flush();
  
    quit_ = false;
 -  task_sender_ = task_receiver_->MakeSender();

@@ -1,5 +1,5 @@
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..6a902ba6 100644
+index 77d164ac..f48c718a 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -15,7 +15,88 @@ index 77d164ac..6a902ba6 100644
  #include <unistd.h>  // for STDIN_FILENO, read
  #endif
  
-@@ -506,17 +511,17 @@ bool ScreenInteractive::HasQuitted() {
+@@ -160,6 +165,80 @@ void ftxui_on_resize(int columns, int rows) {
+ }
+ }
+ 
++#elif defined(__SWITCH__)
++void EventListener(std::atomic<bool>* quit, Sender<Task> out) {
++  // Configure input for one player with standard controller styles
++  padConfigureInput(1, HidNpadStyleSet_NpadStandard);
++
++  // Initialize the default gamepad (handles handheld + first connected pad)
++  PadState pad;
++  padInitializeDefault(&pad);
++
++  // Simple repeat for analog navigation
++  using clock = std::chrono::steady_clock;
++  auto last_nav = clock::now();
++  const auto repeat_delay = std::chrono::milliseconds(120);
++  const int stick_threshold = 20000;  // analog threshold
++
++  while (!*quit && appletMainLoop()) {
++    // Poll inputs once per frame
++    padUpdate(&pad);
++
++    // Button state
++    const u64 kDown = padGetButtonsDown(&pad);
++
++    // Mapping: buttons -> FTXUI events
++    auto send = [&](const Event& e) { out->Send(e); };
++
++    // Navigation via D-Pad
++    if (kDown & HidNpadButton_Up) send(Event::ArrowUp);
++    if (kDown & HidNpadButton_Down) send(Event::ArrowDown);
++    if (kDown & HidNpadButton_Left) send(Event::ArrowLeft);
++    if (kDown & HidNpadButton_Right) send(Event::ArrowRight);
++
++    // Validate / Back
++    if (kDown & HidNpadButton_A) send(Event::Return);
++    if (kDown & HidNpadButton_B) send(Event::Escape);
++
++    // Convenience mappings
++    if (kDown & HidNpadButton_X) send(Event::Tab);
++    if (kDown & HidNpadButton_Y) send(Event::Backspace);
++
++    // Shoulder buttons: page navigation
++    if (kDown & HidNpadButton_L) send(Event::PageUp);
++    if (kDown & HidNpadButton_R) send(Event::PageDown);
++
++    // Triggers: home/end
++    if (kDown & HidNpadButton_ZL) send(Event::Home);
++    if (kDown & HidNpadButton_ZR) send(Event::End);
++
++    // Plus as a generic "quit" signal: map to Ctrl+C (apps can handle it)
++    if (kDown & HidNpadButton_Plus) send(Event::CtrlC);
++
++    // Optional: allow analog stick to generate repeated navigation
++    const HidAnalogStickState lstick = padGetStickPos(&pad, 0);  // Left stick
++    const auto now = clock::now();
++    if (now - last_nav >= repeat_delay) {
++      if (lstick.y > stick_threshold) {
++        send(Event::ArrowUp);
++        last_nav = now;
++      } else if (lstick.y < -stick_threshold) {
++        send(Event::ArrowDown);
++        last_nav = now;
++      } else if (lstick.x < -stick_threshold) {
++        send(Event::ArrowLeft);
++        last_nav = now;
++      } else if (lstick.x > stick_threshold) {
++        send(Event::ArrowRight);
++        last_nav = now;
++      }
++    }
++
++    // Small sleep to avoid busy loop and align with frame rate
++    std::this_thread::sleep_for(std::chrono::milliseconds(10));
++  }
++}
++
+ #else  // POSIX (Linux & Mac)
+ 
+ int CheckStdinReady(int usec_timeout) {
+@@ -506,17 +585,17 @@ bool ScreenInteractive::HasQuitted() {
  // private
  void ScreenInteractive::PreMain() {
    // Suspend previously active screen:
@@ -44,7 +125,7 @@ index 77d164ac..6a902ba6 100644
  
    // This screen is now active:
    g_active_screen = this;
-@@ -610,7 +615,7 @@ void ScreenInteractive::Install() {
+@@ -610,7 +689,7 @@ void ScreenInteractive::Install() {
    // ensure it is fully applied:
    on_exit_functions.emplace([] { Flush(); });
  
@@ -53,7 +134,7 @@ index 77d164ac..6a902ba6 100644
  
    // Request the terminal to report the current cursor shape. We will restore it
    // on exit.
-@@ -657,6 +662,13 @@ void ScreenInteractive::Install() {
+@@ -657,6 +736,13 @@ void ScreenInteractive::Install() {
  
    SetConsoleMode(stdin_handle, in_mode);
    SetConsoleMode(stdout_handle, out_mode);
@@ -67,14 +148,9 @@ index 77d164ac..6a902ba6 100644
  #else
    for (const int signal : {SIGWINCH, SIGTSTP}) {
      InstallSignalHandler(signal);
-@@ -731,10 +743,10 @@ void ScreenInteractive::Install() {
- 
-   quit_ = false;
-   task_sender_ = task_receiver_->MakeSender();
--  event_listener_ =
--      std::thread(&EventListener, &quit_, task_receiver_->MakeSender());
-+  // event_listener_ =
-+  //     std::thread(&EventListener, &quit_, task_receiver_->MakeSender());
+@@ -734,7 +820,7 @@ void ScreenInteractive::Install() {
+   event_listener_ =
+       std::thread(&EventListener, &quit_, task_receiver_->MakeSender());
    animation_listener_ =
 -      std::thread(&AnimationListener, &quit_, task_receiver_->MakeSender());
 +     std::thread(&AnimationListener, &quit_, task_receiver_->MakeSender());

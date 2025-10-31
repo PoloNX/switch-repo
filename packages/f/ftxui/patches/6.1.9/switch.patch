@@ -1,5 +1,5 @@
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..c3678295 100644
+index 77d164ac..8e4cc973 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -44,7 +44,7 @@ index 77d164ac..c3678295 100644
  
    // This screen is now active:
    g_active_screen = this;
-@@ -604,11 +609,11 @@ void ScreenInteractive::Install() {
+@@ -604,7 +609,7 @@ void ScreenInteractive::Install() {
    // is important, because we are using two different channels (stdout vs
    // termios/WinAPI) to communicate with the terminal emulator below. See
    // https://github.com/ArthurSonzogni/FTXUI/issues/846
@@ -53,11 +53,6 @@ index 77d164ac..c3678295 100644
  
    // After uninstalling the new configuration, flush it to the terminal to
    // ensure it is fully applied:
--  on_exit_functions.emplace([] { Flush(); });
-+  //on_exit_functions.emplace([] { Flush(); });
- 
-   on_exit_functions.emplace([this] { ExitLoopClosure()(); });
- 
 @@ -657,6 +662,13 @@ void ScreenInteractive::Install() {
  
    SetConsoleMode(stdin_handle, in_mode);
@@ -72,6 +67,46 @@ index 77d164ac..c3678295 100644
  #else
    for (const int signal : {SIGWINCH, SIGTSTP}) {
      InstallSignalHandler(signal);
+@@ -707,27 +719,27 @@ void ScreenInteractive::Install() {
+     on_exit_functions.emplace([=] { std::cout << Set(parameters); });
+   };
+ 
+-  if (use_alternative_screen_) {
+-    enable({
+-        DECMode::kAlternateScreen,
+-    });
+-  }
++  // if (use_alternative_screen_) {
++  //   enable({
++  //       DECMode::kAlternateScreen,
++  //   });
++  // }
+ 
+   disable({
+       // DECMode::kCursor,
+       DECMode::kLineWrap,
+   });
+ 
+-  if (track_mouse_) {
+-    enable({DECMode::kMouseVt200});
+-    enable({DECMode::kMouseAnyEvent});
+-    enable({DECMode::kMouseUrxvtMode});
+-    enable({DECMode::kMouseSgrExtMode});
+-  }
++  // if (track_mouse_) {
++  //   enable({DECMode::kMouseVt200});
++  //   enable({DECMode::kMouseAnyEvent});
++  //   enable({DECMode::kMouseUrxvtMode});
++  //   enable({DECMode::kMouseSgrExtMode});
++  // }
+ 
+   // After installing the new configuration, flush it to the terminal to
+   // ensure it is fully applied:
+-  Flush();
++  //Flush();
+ 
+   quit_ = false;
+   task_sender_ = task_receiver_->MakeSender();
 diff --git a/src/ftxui/dom/benchmark_test.cpp b/src/ftxui/dom/benchmark_test.cpp
 index 062cb234..e69de29b 100644
 --- a/src/ftxui/dom/benchmark_test.cpp

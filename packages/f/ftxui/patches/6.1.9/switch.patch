@@ -1,5 +1,5 @@
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..d2a11319 100644
+index 77d164ac..6a902ba6 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -73,12 +73,11 @@ index 77d164ac..d2a11319 100644
    task_sender_ = task_receiver_->MakeSender();
 -  event_listener_ =
 -      std::thread(&EventListener, &quit_, task_receiver_->MakeSender());
--  animation_listener_ =
--      std::thread(&AnimationListener, &quit_, task_receiver_->MakeSender());
 +  // event_listener_ =
 +  //     std::thread(&EventListener, &quit_, task_receiver_->MakeSender());
-+  // animation_listener_ =
-+  //     std::thread(&AnimationListener, &quit_, task_receiver_->MakeSender());
+   animation_listener_ =
+-      std::thread(&AnimationListener, &quit_, task_receiver_->MakeSender());
++     std::thread(&AnimationListener, &quit_, task_receiver_->MakeSender());
  }
  
  // private

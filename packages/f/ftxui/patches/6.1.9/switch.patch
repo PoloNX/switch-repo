@@ -1,5 +1,5 @@
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..33b4d7e8 100644
+index 77d164ac..9971d25f 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -44,55 +44,25 @@ index 77d164ac..33b4d7e8 100644
  
    // This screen is now active:
    g_active_screen = this;
-@@ -604,27 +609,27 @@ void ScreenInteractive::Install() {
-   // is important, because we are using two different channels (stdout vs
-   // termios/WinAPI) to communicate with the terminal emulator below. See
-   // https://github.com/ArthurSonzogni/FTXUI/issues/846
--  Flush();
-+  //Flush();
- 
-   // After uninstalling the new configuration, flush it to the terminal to
+@@ -610,7 +615,7 @@ void ScreenInteractive::Install() {
    // ensure it is fully applied:
--  on_exit_functions.emplace([] { Flush(); });
-+  //on_exit_functions.emplace([] { Flush(); });
+   on_exit_functions.emplace([] { Flush(); });
  
 -  on_exit_functions.emplace([this] { ExitLoopClosure()(); });
 +  //on_exit_functions.emplace([this] { ExitLoopClosure()(); });
  
    // Request the terminal to report the current cursor shape. We will restore it
    // on exit.
--  std::cout << DECRQSS_DECSCUSR;
--  on_exit_functions.emplace([this] {
--    std::cout << "\033[?25h";  // Enable cursor.
--    std::cout << "\033[" + std::to_string(cursor_reset_shape_) + " q";
--  });
-+  // std::cout << DECRQSS_DECSCUSR;
-+  // on_exit_functions.emplace([this] {
-+  //   std::cout << "\033[?25h";  // Enable cursor.
-+  //   std::cout << "\033[" + std::to_string(cursor_reset_shape_) + " q";
-+  // });
- 
-   // Install signal handlers to restore the terminal state on exit. The default
-   // signal handlers are restored on exit.
--  for (const int signal : {SIGTERM, SIGSEGV, SIGINT, SIGILL, SIGABRT, SIGFPE}) {
--    InstallSignalHandler(signal);
--  }
-+  // for (const int signal : {SIGTERM, SIGSEGV, SIGINT, SIGILL, SIGABRT, SIGFPE}) {
-+  //   InstallSignalHandler(signal);
-+  // }
- 
- // Save the old terminal configuration and restore it on exit.
- #if defined(_WIN32)
 @@ -657,6 +662,13 @@ void ScreenInteractive::Install() {
  
    SetConsoleMode(stdin_handle, in_mode);
    SetConsoleMode(stdout_handle, out_mode);
 +#elif defined(__SWITCH__)
 +  // --- Initialisation des services Switch ---
-+  consoleInit(NULL); // initialise la console texte ; utile pour debug/text output
++  //consoleInit(NULL); // initialise la console texte ; utile pour debug/text output
 +
 +  // Configure l'entrée pour un joueur, styles standards de manettes
-+  padConfigureInput(1, HidNpadStyleSet_NpadStandard);
++  //padConfigureInput(1, HidNpadStyleSet_NpadStandard);
 +
  #else
    for (const int signal : {SIGWINCH, SIGTSTP}) {

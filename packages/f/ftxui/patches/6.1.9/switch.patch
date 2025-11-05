@@ -1,5 +1,5 @@
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
-index 77d164ac..115dba4a 100644
+index 77d164ac..88b6677a 100644
 --- a/src/ftxui/component/screen_interactive.cpp
 +++ b/src/ftxui/component/screen_interactive.cpp
 @@ -48,7 +48,12 @@
@@ -185,16 +185,16 @@ index 77d164ac..115dba4a 100644
      } else {
        set_cursor_position += "\033[?25h";
        set_cursor_position +=
-@@ -1010,6 +1102,9 @@ void ScreenInteractive::Draw(Component component) {
-   }
+@@ -1011,6 +1103,9 @@ void ScreenInteractive::Draw(Component component) {
  
    std::cout << ToString() << set_cursor_position;
+   Flush();
 +  #ifdef __SWITCH__
 +  consoleUpdate(NULL);
 +  #endif
-   Flush();
    Clear();
    frame_valid_ = true;
+ }
 diff --git a/src/ftxui/dom/benchmark_test.cpp b/src/ftxui/dom/benchmark_test.cpp
 index 062cb234..e69de29b 100644
 --- a/src/ftxui/dom/benchmark_test.cpp

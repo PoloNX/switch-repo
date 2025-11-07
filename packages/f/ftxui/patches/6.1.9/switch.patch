@@ -1,3 +1,19 @@
+diff --git a/src/ftxui/component/loop.cpp b/src/ftxui/component/loop.cpp
+index d16c67b4..247dd8a5 100644
+--- a/src/ftxui/component/loop.cpp
++++ b/src/ftxui/component/loop.cpp
+@@ -50,7 +50,11 @@ void Loop::RunOnceBlocking() {
+ /// quitted.
+ void Loop::Run() {
+   while (!HasQuitted()) {
++    #ifndef __SWITCH__
+     RunOnceBlocking();
++    #else 
++    RunOnce();
++    #endif
+   }
+ }
+ 
 diff --git a/src/ftxui/component/screen_interactive.cpp b/src/ftxui/component/screen_interactive.cpp
 index 77d164ac..88b6677a 100644
 --- a/src/ftxui/component/screen_interactive.cpp
